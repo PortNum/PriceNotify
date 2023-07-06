@@ -30,10 +30,11 @@ def choose_action():
                     print("请输入整数！")
                     continue
                 break
-            delete_task(id)
+            dbutils.delete_task(id)
+            dbutils.list_task()
             continue
         if action == "3":
-            list_task()
+            dbutils.list_task()
             continue
         if action == "4":
             break
@@ -65,9 +66,9 @@ def compare_direction():
         except ValueError as e:
             print("请输入正确的数字")
         if direction == 1:
-            return 'higher'
+            return '高于'
         if direction == 2:
-            return 'lower'
+            return '低于'
         if direction != 1 and direction != 2:
             print("请输入正确的数字")
             continue
@@ -132,24 +133,8 @@ def add_cn_future():
     sqlite_db = dbutils.get_db()
     sqlite_db.insert(config.table_name, config.table_fields, values)
     print("添加成功！")
-    list_task()
+    dbutils.list_task()
 
-
-def list_task():
-    db = dbutils.get_db()
-    rows = db.select(config.table_name, config.table_fields_all)
-    print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s%-8s" % (
-        "ID", "类型", "名称", "代码", "高于/低于", "价格", "剩余通知次数", "是否通知"))
-    for r in rows:
-        print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s%-8s" % (r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7]))
-    db.close_conn()
-
-
-def delete_task(id):
-    db_for_delete = dbutils.get_db()
-    db_for_delete.delete(config.table_name, "id=%s" % id)
-    list_task()
-    db_for_delete.close_conn()
 
 def get_num():
     global num

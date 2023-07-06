@@ -1,4 +1,5 @@
 import os
+
 url = "https://open.feishu.cn/open-apis/bot/v2/hook/57dfbb83-ca88-42f1-81e5-89e75eb6b2eb"
 secret_string = 'C2YJrXQC5uN4I3zW6VwTAc'
 headers = {"Content-Type": "application/json"}
@@ -18,3 +19,5 @@ field_list = [
 
 table_fields = ['type', 'name', 'symbol', 'compare', 'price', 'num', 'need_notify']
 table_fields_all = ['id', 'type', 'name', 'symbol', 'compare', 'price', 'num', 'need_notify']
+
+sleep_time = 10

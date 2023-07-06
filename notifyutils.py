@@ -36,10 +36,9 @@ def send_notify(content):
     at = '''<at user_id="all">所有人</at>'''
     content = {"text": content + at}
     msg = {"timestamp": timestamp, "sign": sign, "msg_type": msg_type, "content": content}
-    print(json.dumps(msg))
     r = requests.post(config.url, data=json.dumps(msg))
-    print(r)
+    return r
 
 
 if __name__ == '__main__':
-    send_notify('hello world')
+    send_notify('价格提醒')

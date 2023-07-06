@@ -49,3 +49,35 @@ def get_db():
     sqlite_db = Db(config.db_name)
     sqlite_db.create_table(config.table_name, config.field_list)
     return sqlite_db
+
+
+def delete_task(id):
+    db_for_delete = get_db()
+    db_for_delete.delete(config.table_name, "id=%s" % id)
+    db_for_delete.close_conn()
+
+
+def update_task(id: int, num: int):
+    try:
+        if num == 0 or num - 1 == 0:
+            delete_task(id)
+            return
+        num = num - 1
+        db = get_db()
+        set_sql = "num=%d" % num
+        where_sql = "id=%d" % id
+        db.update(config.table_name, set_sql, where_sql)
+        db.close_conn()
+    except Exception as e:
+        print(e)
+        return None
+
+
+def list_task():
+    db = get_db()
+    rows = db.select(config.table_name, config.table_fields_all)
+    print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s%-8s" % (
+        "ID", "类型", "名称", "代码", "高于/低于", "价格", "剩余通知次数", "是否通知"))
+    for r in rows:
+        print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s%-8s" % (r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7]))
+    db.close_conn()
