@@ -1,3 +1,4 @@
-
+-  python3 建议3.10以后的版本
+-  依赖akshare
 -  notifylist.py 通知管理
 -  notifytask.py 通知
