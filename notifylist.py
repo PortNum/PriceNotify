@@ -95,7 +95,7 @@ def add_cn_future():
     length = future_items.shape[0]
     for j in future_items.index:
         if (j + 1) % 10 == 0:
-            print(f"%2s:%2s" % (j, future_items.at[j, 'symbol']))
+            print(f"%2s:%2s" % (j, future_items.at[j, 'symbol']), end="\n\n")
         else:
             print(f"%2s:%2s" % (j, future_items.at[j, 'symbol']), end="  ")
     while True:

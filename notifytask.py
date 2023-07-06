@@ -5,6 +5,7 @@ import time
 import config
 import dbutils
 import akshare as ak
+
 import notifyutils
 
 
@@ -75,7 +76,7 @@ if __name__ == '__main__':
                 target_price = row[5]
                 compare_direction = row[4]
                 notify_id = row[0]
-                if row[1] == "cn_future"  and need_notify_num > 0:
+                if row[1] == "cn_future" and need_notify_num > 0:
                     current_price = get_current_price_cn_future(row[3])
                     if compare_price(current_price, target_price=target_price, compare_direction=compare_direction):
                         content = "到价提醒：%s ,%s ,当前价格 %s %s设置价格：%s" % (
