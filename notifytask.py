@@ -1,11 +1,10 @@
+#! /usr/bin/env python
+
 import json
 import time
-
 import config
 import dbutils
 import akshare as ak
-import numpy as np
-
 import notifyutils
 
 
@@ -69,7 +68,6 @@ def list_task():
 
 if __name__ == '__main__':
     while True:
-        time.sleep(config.sleep_time)
         rows = list_task()
         if rows is not None:
             for row in rows:
@@ -86,3 +84,4 @@ if __name__ == '__main__':
                         if resp.status_code == 200 and json.loads(resp.content)['StatusCode'] == 0:
                             dbutils.update_task(notify_id, need_notify_num)
                             print(content, "发送成功")
+        time.sleep(config.sleep_time)

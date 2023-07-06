@@ -1,6 +1,6 @@
-import akshare as ak
-import json
+#! /usr/bin/env python
 
+import akshare as ak
 import config
 import dbutils
 import dbutils as db
