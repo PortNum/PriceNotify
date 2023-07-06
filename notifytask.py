@@ -56,10 +56,10 @@ def list_task():
     try:
         db = dbutils.get_db()
         rows = db.select(config.table_name, config.table_fields_all)
-        print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s%-8s" % (
-            "ID", "类型", "名称", "代码", "高于/低于", "价格", "剩余通知次数", "是否通知"))
+        print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s" % (
+            "ID", "类型", "名称", "代码", "高于/低于", "价格", "剩余通知次数"))
         for r in rows:
-            print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s%-8s" % (r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7]))
+            print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s" % (r[0], r[1], r[2], r[3], r[4], r[5], r[6]))
         db.close_conn()
         return rows
     except Exception as e:
@@ -73,12 +73,11 @@ if __name__ == '__main__':
         rows = list_task()
         if rows is not None:
             for row in rows:
-                need_notify = row[7]
                 need_notify_num = row[6]
                 target_price = row[5]
                 compare_direction = row[4]
                 notify_id = row[0]
-                if row[1] == "cn_future" and need_notify == 1 and need_notify_num > 0:
+                if row[1] == "cn_future"  and need_notify_num > 0:
                     current_price = get_current_price_cn_future(row[3])
                     if compare_price(current_price, target_price=target_price, compare_direction=compare_direction):
                         content = "到价提醒：%s ,%s ,当前价格 %s %s设置价格：%s" % (

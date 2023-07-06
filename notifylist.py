@@ -129,7 +129,7 @@ def add_cn_future():
     direction = compare_direction()
     price = get_price()
     num = get_num()
-    values = ['cn_future', name, symbol, direction, price, num, 1]
+    values = ['cn_future', name, symbol, direction, price, num]
     sqlite_db = dbutils.get_db()
     sqlite_db.insert(config.table_name, config.table_fields, values)
     print("添加成功！")

@@ -14,10 +14,9 @@ field_list = [
     {'name': 'compare', 'type': 'VARCHAR(20) NOT NULL'},
     {'name': 'price', 'type': 'NUMERIC NOT NULL'},
     {'name': 'num', 'type': 'INTEGER NOT NULL'},
-    {'name': 'need_notify', 'type': 'INTEGER NOT NULL'},
 ]
 
-table_fields = ['type', 'name', 'symbol', 'compare', 'price', 'num', 'need_notify']
-table_fields_all = ['id', 'type', 'name', 'symbol', 'compare', 'price', 'num', 'need_notify']
+table_fields = ['type', 'name', 'symbol', 'compare', 'price', 'num']
+table_fields_all = ['id', 'type', 'name', 'symbol', 'compare', 'price', 'num']
 
 sleep_time = 10
