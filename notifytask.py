@@ -1,12 +1,13 @@
-#! /usr/bin/env python
-
+#!/usr/local/bin/python
 import json
 import time
 import config
 import dbutils
 import akshare as ak
-
 import notifyutils
+import sys
+
+
 
 
 def get_current_price_cn_future(symbol: str):

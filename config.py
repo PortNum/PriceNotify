@@ -5,6 +5,7 @@ secret_string = 'C2YJrXQC5uN4I3zW6VwTAc'
 headers = {"Content-Type": "application/json"}
 
 db_name = os.path.join(os.getcwd(), "notify.db")
+log_name = os.path.join(os.getcwd(), "notify.log")
 table_name = 'notify_list'
 field_list = [
     {'name': 'id', 'type': 'INTEGER PRIMARY KEY AUTOINCREMENT'},

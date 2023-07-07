@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/python
 
 import akshare as ak
 import config
@@ -109,7 +109,6 @@ def add_cn_future():
             continue
         name = future_items.at[item, 'symbol']
         contracts = ak.futures_zh_realtime(symbol=name)
-        print(contracts)
         print("%-8s%-8s%-8s" % ("序号", "合约", "现价"))
         for c in contracts.index:
             print("%-8s%-8s%-8s" % (c, contracts.at[c, 'symbol'], contracts.at[c, 'trade']))
