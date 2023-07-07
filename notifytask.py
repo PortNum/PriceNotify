@@ -4,10 +4,9 @@ import time
 import config
 import dbutils
 import akshare as ak
+
 import notifyutils
 import sys
-
-
 
 
 def get_current_price_cn_future(symbol: str):
@@ -72,18 +71,21 @@ if __name__ == '__main__':
     while True:
         rows = list_task()
         if rows is not None:
-            for row in rows:
-                need_notify_num = row[6]
-                target_price = row[5]
-                compare_direction = row[4]
-                notify_id = row[0]
-                if row[1] == "cn_future" and need_notify_num > 0:
-                    current_price = get_current_price_cn_future(row[3])
-                    if compare_price(current_price, target_price=target_price, compare_direction=compare_direction):
-                        content = "到价提醒：%s ,%s ,当前价格 %s %s设置价格：%s" % (
-                            row[2], row[3], current_price, compare_direction, row[5])
-                        resp = notifyutils.send_notify(content)
-                        if resp.status_code == 200 and json.loads(resp.content)['StatusCode'] == 0:
-                            dbutils.update_task(notify_id, need_notify_num)
-                            print(content, "发送成功")
+            try:
+                for row in rows:
+                    need_notify_num = row[6]
+                    target_price = row[5]
+                    compare_direction = row[4]
+                    notify_id = row[0]
+                    if row[1] == "cn_future" and need_notify_num > 0:
+                        current_price = get_current_price_cn_future(row[3])
+                        if compare_price(current_price, target_price=target_price, compare_direction=compare_direction):
+                            content = "到价提醒：%s ,%s ,当前价格 %s %s设置价格：%s" % (
+                                row[2], row[3], current_price, compare_direction, row[5])
+                            resp = notifyutils.send_notify(content)
+                            if resp.status_code == 200 and json.loads(resp.content)['StatusCode'] == 0:
+                                dbutils.update_task(notify_id, need_notify_num)
+                                print(content, "发送成功")
+            except Exception as e:
+                print(e)
         time.sleep(config.sleep_time)
