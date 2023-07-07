@@ -1,15 +1,12 @@
-#! /usr/bin/env python
+#! /usr/bin/python
 
 """
 /******************************************************************************
 pip install requests
-pip install PyCryptodome
-代发查询
 ******************************************************************************/
 """
 import json
 import time
-
 import requests
 import hashlib
 import base64
