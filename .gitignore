@@ -3,3 +3,4 @@ __pycache__
 .idea
 notify.db
 nohup.out
+notify.log

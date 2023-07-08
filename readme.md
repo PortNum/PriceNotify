@@ -3,3 +3,4 @@
 -  notifylist.py 通知管理
 -  notifytask.py 通知
 -  config.py 配置文件
+-  运行 nohu python -u notifytask.py >notify.log 2>&1 &
