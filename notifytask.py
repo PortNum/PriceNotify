@@ -34,8 +34,8 @@ def get_current_cfd_price(code: str):
         return None
 
 
-def compare_price(current_price, target_price, compare_direction):
-    print(current_price, compare_direction, target_price, end=" ?")
+def compare_price(current_price, target_price, compare_direction, symbol):
+    print(symbol, current_price, compare_direction, target_price, end=" ?")
     if compare_direction == "高于":
         if current_price >= target_price:
             print("YES")
@@ -100,7 +100,7 @@ if __name__ == '__main__':
                         if is_workday() and is_cn_future_opening_time():
                             current_price = get_current_price_cn_future(symbol)
                             if compare_price(current_price, target_price=target_price,
-                                             compare_direction=compare_direction):
+                                             compare_direction=compare_direction, symbol=symbol):
                                 content = "到价提醒：%s ,%s ,当前价格 %s %s设置价格：%s" % (
                                     name, symbol, current_price, compare_direction, target_price)
                                 resp = notifyutils.send_notify(content)
@@ -110,7 +110,7 @@ if __name__ == '__main__':
                     if task_type == "foreign_commodity_cfd" and need_notify_num >0:
                         current_price = get_current_cfd_price(symbol)
                         if compare_price(current_price, target_price=target_price,
-                                         compare_direction=compare_direction):
+                                         compare_direction=compare_direction,symbol=symbol):
                             content = "到价提醒：%s ,%s ,当前价格 %s %s设置价格：%s" % (
                                 name, symbol, current_price, compare_direction, target_price)
                             resp = notifyutils.send_notify(content)
