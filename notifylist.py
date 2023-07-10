@@ -47,10 +47,10 @@ def choose_type():
             add_cn_future()
             break
         if type == '2':
-            print('待实现')
+            add_cn_stocks()
             break
         if type == '3':
-            foreign_commodity_cfd()
+            add_foreign_commodity_cfd()
             break
         if type == '4':
             print("放弃操作，退出")
@@ -135,7 +135,7 @@ def add_cn_future():
     dbutils.list_task()
 
 
-def foreign_commodity_cfd():
+def add_foreign_commodity_cfd():
     global cfd_symbol, cfd_name
     cfds = ak.futures_hq_subscribe_exchange_symbol()
     length = cfds.shape[0]
@@ -169,7 +169,37 @@ def foreign_commodity_cfd():
     dbutils.list_task()
 
 
-def get_current_cfd_price(code:str):
+def add_cn_stocks():
+    while True:
+        try:
+            stock_symbol = input("请输入6位A股个股代码：")
+            if len(stock_symbol) > 6:
+                continue
+            stock_info = ak.stock_individual_info_em(symbol=stock_symbol)
+            stock_name = stock_info.at[5, 'value']
+            stock_prices = ak.stock_bid_ask_em(symbol=stock_symbol)
+            stock_current_price = stock_prices.at[8, 'value']
+            confirm = input("A股 %s %s  现价：%s ,是否添加(y/n)？" % (stock_symbol, stock_name, stock_current_price))
+            if confirm != "y" and confirm != "n" and confirm != "Y" and confirm != "N":
+                print("已放弃添加！")
+                break
+            direction = compare_direction()
+            price = get_price()
+            num = get_num()
+            values = ['cn_stock', stock_name, stock_symbol, direction, price, num]
+            sqlite_db = dbutils.get_db()
+            sqlite_db.insert(config.table_name, config.table_fields, values)
+            print("添加成功！")
+            dbutils.list_task()
+            break
+
+        except Exception as e:
+            print(e)
+            print("查询个股失败")
+            continue
+
+
+def get_current_cfd_price(code: str):
     list = ['CT', code]
     try:
         futures_foreign_commodity_realtime_df = ak.futures_foreign_commodity_realtime(subscribe_list=list)
@@ -178,7 +208,6 @@ def get_current_cfd_price(code:str):
     except Exception as e:
         print(e)
         return "获取失败"
-
 
 
 def get_num():

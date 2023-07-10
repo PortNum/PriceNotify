@@ -1,12 +1,19 @@
 import akshare as ak
+import pandas as pd
 
 
 def t():
-    list = ak.futures_hq_subscribe_exchange_symbol()
-    print(list)
-    list = ['CT', 'XAU', 'XAU']
-    futures_foreign_commodity_realtime_df = ak.futures_foreign_commodity_realtime(subscribe_list=list)
-    print(futures_foreign_commodity_realtime_df)
+    stock_individual_info_em_df = ak.stock_individual_info_em(symbol="002372")
+    print(stock_individual_info_em_df)
+    stock_bid_ask_em_df = ak.stock_bid_ask_em(symbol="002372")
+    # print(stock_bid_ask_em_df)
+    print(stock_bid_ask_em_df.at[8, 'value'])
+    stock_name = stock_individual_info_em_df.at[5, 'value']
+    print(stock_name)
+
+
+
+
 
 
 def foreign_commodity_cfd():
@@ -41,4 +48,4 @@ def get_current_cfd_price(code: str):
 
 if __name__ == '__main__':
     # foreign_commodity_cfd()
-    get_current_cfd_price("XAU")
+    t()
