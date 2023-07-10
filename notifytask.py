@@ -132,18 +132,26 @@ if __name__ == '__main__':
                     if task_type == "cn_future" and need_notify_num > 0:
                         if is_workday() and is_cn_future_opening_time():
                             current_price = get_current_price_cn_future(symbol)
+                            if current_price is None:
+                                print("即将重试")
+                                continue
                             compare_and_send(current_price=current_price, target_price=target_price,
                                              compare_direction=compare_direction, symbol=symbol, name=name)
 
                     if task_type == "foreign_commodity_cfd" and need_notify_num > 0:
                         current_price = get_current_cfd_price(symbol)
+                        if current_price is None:
+                            print("即将重试")
+                            continue
                         compare_and_send(current_price=current_price, target_price=target_price,
                                          compare_direction=compare_direction, symbol=symbol, name=name)
 
                     if task_type == "cn_stock" and need_notify_num > 0:
-                        # if is_workday() and is_cn_stock_opening_time():
-                        if is_workday():
+                        if is_workday() and is_cn_stock_opening_time():
                             current_price = get_current_cn_stock_price(symbol)
+                            if current_price is None:
+                                print("即将重试")
+                                continue
                             compare_and_send(current_price=current_price, target_price=target_price,
                                              compare_direction=compare_direction, symbol=symbol, name=name)
 
