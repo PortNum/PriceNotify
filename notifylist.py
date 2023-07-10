@@ -8,12 +8,6 @@ import os
 
 print(os.getcwd())
 
-'''
-type|name|symbol|compare_direction|price|number
-
---type: 1:future    2:stock     3:cfd
-'''
-
 
 def choose_action():
     global id
@@ -37,7 +31,7 @@ def choose_action():
             dbutils.list_task()
             continue
         if action == "4":
-            confirm_del = input("即将清空所有的任务并重置，是否继续？")
+            confirm_del = input("即将清空所有的任务并重置，是否继续(y/n)？")
             if confirm_del == "y" or confirm_del == "Y":
                 dbutils.delete_task_table()
                 print("重置成功！")
@@ -188,7 +182,7 @@ def add_cn_stocks():
             stock_prices = ak.stock_bid_ask_em(symbol=stock_symbol)
             stock_current_price = stock_prices.at[8, 'value']
             confirm = input("A股 %s %s  现价：%s ,是否添加(y/n)？" % (stock_symbol, stock_name, stock_current_price))
-            if confirm != "y" and confirm != "n" and confirm != "Y" and confirm != "N":
+            if confirm != "y" and confirm != "Y":
                 print("已放弃添加！")
                 break
             direction = compare_direction()
