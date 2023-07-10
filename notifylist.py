@@ -18,7 +18,7 @@ type|name|symbol|compare_direction|price|number
 def choose_action():
     global id
     while True:
-        action = input("1:添加   2:删除    3:列表    4:结束操作\n请选择操作:")
+        action = input("1:添加   2:删除    3:列表    4:重置     5：放弃操作\n请选择操作:")
         if action == "1":
             choose_type()
             continue
@@ -37,6 +37,14 @@ def choose_action():
             dbutils.list_task()
             continue
         if action == "4":
+            confirm_del = input("即将清空所有的任务并重置，是否继续？")
+            if confirm_del == "y" or confirm_del == "Y":
+                dbutils.delete_task_table()
+                print("重置成功！")
+                continue
+            print("已放弃操作！")
+            continue
+        if action == "5":
             break
 
 

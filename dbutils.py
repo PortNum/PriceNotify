@@ -82,3 +82,9 @@ def list_task():
         print("%-8s%-25s%-8s%-10s%-8s%-8s%-8s" % (r[0], r[1], r[2], r[3], r[4], r[5], r[6]))
     db.close_conn()
     return rows
+
+
+def delete_task_table():
+    db = get_db()
+    sql_delete_table = "DROP TABLE %s" % config.table_name
+    db.conn.execute(sql_delete_table)
