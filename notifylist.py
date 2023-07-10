@@ -50,7 +50,7 @@ def choose_type():
             print('待实现')
             break
         if type == '3':
-            print('待实现')
+            foreign_commodity_cfd()
             break
         if type == '4':
             print("放弃操作，退出")
@@ -122,7 +122,7 @@ def add_cn_future():
                 print("请输入正确的数字")
                 continue
             symbol = contracts.at[symbol_index, 'symbol']
-            print("已选择：%s ,合约：%s" % (future_items.at[item, 'symbol'], symbol))
+            print("已选择：%s ,合约：%s" % (name, symbol))
             break
         break
     direction = compare_direction()
@@ -133,6 +133,52 @@ def add_cn_future():
     sqlite_db.insert(config.table_name, config.table_fields, values)
     print("添加成功！")
     dbutils.list_task()
+
+
+def foreign_commodity_cfd():
+    global cfd_symbol, cfd_name
+    cfds = ak.futures_hq_subscribe_exchange_symbol()
+    length = cfds.shape[0]
+    for cfd in cfds.index:
+        if (cfd + 1) % 10 == 0:
+            print(f"%2s:%2s" % (cfd, cfds.at[cfd, 'symbol']), end="\n\n")
+        else:
+            print(f"%2s:%2s" % (cfd, cfds.at[cfd, 'symbol']), end="  ")
+    while True:
+        try:
+            item = int(input("请选择外盘商品CFD品种："))
+        except ValueError as e:
+            print("请正确输入数字")
+            continue
+        if item > length - 1 or item < 0:
+            print("请输入正确的数字")
+            continue
+        cfd_name = cfds.at[item, 'symbol']
+        cfd_symbol = cfds.at[item, 'code']
+        cfd_price = get_current_cfd_price(cfd_symbol)
+
+        print("已选择：%s ,代码：%s, 当前价格：%s" % (cfd_name, cfd_symbol, cfd_price))
+        break
+    direction = compare_direction()
+    price = get_price()
+    num = get_num()
+    values = ['foreign_commodity_cfd', cfd_name, cfd_symbol, direction, price, num]
+    sqlite_db = dbutils.get_db()
+    sqlite_db.insert(config.table_name, config.table_fields, values)
+    print("添加成功！")
+    dbutils.list_task()
+
+
+def get_current_cfd_price(code:str):
+    list = ['CT', code]
+    try:
+        futures_foreign_commodity_realtime_df = ak.futures_foreign_commodity_realtime(subscribe_list=list)
+        current_price = futures_foreign_commodity_realtime_df.at[1, '最新价']
+        return current_price
+    except Exception as e:
+        print(e)
+        return "获取失败"
+
 
 
 def get_num():

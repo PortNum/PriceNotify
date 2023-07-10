@@ -76,8 +76,9 @@ def update_task(id: int, num: int):
 def list_task():
     db = get_db()
     rows = db.select(config.table_name, config.table_fields_all)
-    print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s" % (
+    print("%-8s%-25s%-8s%-10s%-8s%-8s%-8s" % (
         "ID", "类型", "名称", "代码", "高于/低于", "价格", "剩余通知次数"))
     for r in rows:
-        print("%-8s%-15s%-8s%-10s%-8s%-8s%-8s" % (r[0], r[1], r[2], r[3], r[4], r[5], r[6]))
+        print("%-8s%-25s%-8s%-10s%-8s%-8s%-8s" % (r[0], r[1], r[2], r[3], r[4], r[5], r[6]))
     db.close_conn()
+    return rows
