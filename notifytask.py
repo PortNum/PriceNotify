@@ -88,7 +88,7 @@ def is_workday():
 
 def is_cn_future_opening_time():
     now_localtime = time.strftime("%H:%M:%S", time.localtime())
-    if "09:00:00" < now_localtime < "11:30:00" or "13:30:00" < now_localtime < "15:00:00" or "21:00:00" < now_localtime < "23:00:00":
+    if "09:00:00" < now_localtime < "10:15:00" or "10:30:00" < now_localtime < "11:30:00" or "13:30:00" < now_localtime < "15:00:00" or "21:00:00" < now_localtime < "23:00:00":
         return True
     print("当前时间内盘期货未开盘: %s" % now_localtime)
     return False
