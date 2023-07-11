@@ -44,7 +44,7 @@ def choose_action():
 
 def choose_type():
     while True:
-        type = input("1:内盘期货   2：A股    3：CFD   4:放弃\n添加类型:")
+        type = input("1:内盘期货   2：A股    3：CFD   4:外汇     5:放弃\n添加类型:")
         if type == "1":
             add_cn_future()
             break
@@ -55,6 +55,9 @@ def choose_type():
             add_foreign_commodity_cfd()
             break
         if type == '4':
+            add_forex()
+            break
+        if type == '5':
             print("放弃操作，退出")
             break
         continue
@@ -199,6 +202,37 @@ def add_cn_stocks():
             print(e)
             print("查询个股失败")
             continue
+
+
+def add_forex():
+    fx_pair_quote_df = ak.fx_pair_quote()
+    print(fx_pair_quote_df)
+    length = fx_pair_quote_df.shape[0]
+    while True:
+        try:
+            forex_index = int(input("请选择货币对："))
+        except ValueError as e:
+            print("请正确输入数字")
+            continue
+        if forex_index > length - 1 or forex_index < 0:
+            print("请输入正确的数字")
+            continue
+        name = fx_pair_quote_df.at[forex_index, '货币对']
+        symbol = forex_index
+        current_price = fx_pair_quote_df.at[forex_index, '卖报价']
+        confirm_choice = input("已选择：%s ,现报价：%s, 缺定添加(y/n)？" % (name, current_price))
+        if confirm_choice != "y" and confirm_choice != "Y":
+            print("放弃操作！")
+            break
+        direction = compare_direction()
+        price = get_price()
+        num = get_num()
+        values = ['forex', name, symbol, direction, price, num]
+        sqlite_db = dbutils.get_db()
+        sqlite_db.insert(config.table_name, config.table_fields, values)
+        print("添加成功！")
+        dbutils.list_task()
+        break
 
 
 def get_current_cfd_price(code: str):

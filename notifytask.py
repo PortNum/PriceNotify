@@ -46,6 +46,16 @@ def get_current_cn_stock_price(symbol: str):
         return None
 
 
+def get_current_forex_price(index: int, name: str):
+    try:
+        fx_pair_quote_df = ak.fx_pair_quote()
+        return fx_pair_quote_df.at[index, '卖报价']
+    except Exception as e:
+        print("获取 %s 当前价格失败" % name)
+        print(e)
+        return None
+
+
 def compare_price(current_price, target_price, compare_direction, symbol, name):
     print(name, symbol, current_price, compare_direction, target_price, end=" ?")
     if compare_direction == "高于":
@@ -140,6 +150,14 @@ if __name__ == '__main__':
 
                     if task_type == "foreign_commodity_cfd" and need_notify_num > 0:
                         current_price = get_current_cfd_price(symbol)
+                        if current_price is None:
+                            print("即将重试")
+                            continue
+                        compare_and_send(current_price=current_price, target_price=target_price,
+                                         compare_direction=compare_direction, symbol=symbol, name=name)
+
+                    if task_type == "forex" and need_notify_num > 0:
+                        current_price = get_current_forex_price(int(symbol), name=name)
                         if current_price is None:
                             print("即将重试")
                             continue
