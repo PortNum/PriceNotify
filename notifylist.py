@@ -70,6 +70,7 @@ def compare_direction():
             direction = int(input("1：高于等于     2：低于等于\n请选择："))
         except ValueError as e:
             print("请输入正确的数字")
+            continue
         if direction == 1:
             return '高于'
         if direction == 2:
