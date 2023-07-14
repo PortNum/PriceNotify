@@ -3,7 +3,6 @@
 import akshare as ak
 import config
 import dbutils
-import dbutils as db
 import os
 
 print(os.getcwd())
@@ -260,12 +259,6 @@ def get_num():
             continue
         break
     return num
-
-
-def db_init():
-    sqlite_db = db.Db("notify.db")
-    sqlite_db.create_table(config.table_name, config.field_list)
-    return sqlite_db
 
 
 if __name__ == '__main__':
